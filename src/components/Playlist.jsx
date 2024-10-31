@@ -19,6 +19,10 @@ const Playlist = () => {
                 <h1 className="playlist-more-text">TITLE – ARTIST</h1>
                 <h1 className="playlist-more-text">TITLE – ARTIST</h1>
                 <h1 className="playlist-more-text">TITLE – ARTIST</h1>
+                <h1 className="playlist-more-text">TITLE – ARTIST</h1>
+                <h1 className="playlist-more-text">TITLE – ARTIST</h1>
+                <h1 className="playlist-more-text">TITLE – ARTIST</h1>
+                <h1 className="playlist-more-text">TITLE – ARTIST</h1>
             </div>
         </section>
     )

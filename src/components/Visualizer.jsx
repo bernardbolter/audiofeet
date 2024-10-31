@@ -73,7 +73,8 @@ const Analyzer = ({
                 map={size.width > 768 ? desktopImage : mobileImage}
                 displacementMap={size.width > 768 ? desktopDis : mobileDis}
                 // displacementScale={material.displacementScale}
-                side={'white'}
+                // side={THREE.FrontSide}
+                side={THREE.DoubleSide}
             />
         </mesh>
     )
@@ -151,7 +152,7 @@ const Visualizer = () => {
     const [desktopDis, setDesktopDis] = useState(useLoader(TextureLoader, '/images/uno_alesia/uno_alesia_dis_desktop.jpg'))
     const [mobileImage, setMobileImage] = useState(useLoader(TextureLoader, '/images/uno_alesia/uno_alesia_mobile.jpg'))
     const [mobileDis, setMobileDis] = useState(useLoader(TextureLoader, '/images/uno_alesia/uno_alesia_dis_mobile.jpg'))
-    const [audioURL, setAudioURL] = useState('/audio/uno_alesia.wav')
+    const [audioURL, setAudioURL] = useState('/audio/UNO.mp3')
 
     // useEffect(() => {
     //     console.log("index: ", demon.currentTrackIndex)

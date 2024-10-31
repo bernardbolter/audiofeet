@@ -2,8 +2,6 @@ import { useContext } from "react"
 import { DemonContext } from "@/providers/DemonProvider"
 import { useWindowSize } from "@/hooks/useWindowSize"
 
-import Image from "next/image"
-
 import Close from "@/svg/Close"
 
 const AboutTrack = () => {
@@ -26,11 +24,14 @@ const AboutTrack = () => {
                     ))}
                 </div>
                 <div className="about-track-image-container">
-                    <Image
-                        src={`/images/${demon.tracksData[demon.currentTrackIndex].slug}/${demon.tracksData[demon.currentTrackIndex].slug}_cover.jpg`}
-                        alt={`cover image for the track by ${demon.tracksData[demon.currentTrackIndex].slug}`}
-                        width={size.width < 769 ? size.width * .98 : size.width * .49}
-                        height={size.width < 769 ? size.width * .98 : size.width * .49}
+                    <img
+                        src='/images/uno_alesia/uno_alesia_cover.jpg'
+                        alt='cover image for the track by UNO'
+                        style={{
+                            width:`{size.width < 769 ? size.width * .98 : size.width * .49}`,
+                            height: `{size.width < 769 ? size.width * .98 : size.width * .49}px`
+                        }}
+                        
                     />
                 </div>
             </div>

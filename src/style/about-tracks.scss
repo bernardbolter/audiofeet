@@ -12,8 +12,8 @@
 
 .about-track-close-container {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
     height: 16px;
     width: 16px;
@@ -34,12 +34,13 @@
     width: 98%;
     height: calc(100vh - 160px);
     margin: 35px 1% 0;
-    overflow: hidden;
+    overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;
 
     @media screen and (min-width: $tablet) {
         flex-direction: row;
+        overflow-y: hidden;
     }
 }
 

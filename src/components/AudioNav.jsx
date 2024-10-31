@@ -5,6 +5,7 @@ import { useWindowSize } from '@/hooks/useWindowSize'
 
 import Play from '@/svg/Play'
 import Stop from '@/svg/Stop'
+import Pause from '@/svg/Pause'
 import PlayHead from '@/svg/PlayHead'
 
 const AudioNav = () => {
@@ -31,7 +32,13 @@ const AudioNav = () => {
         <section className="audio-nav-container">
             <p 
                 className="audio-nav-title"
-                onClick={() => setDemon(state => ({ ...state, page: 'track' }))}    
+                onClick={() => {
+                        if (demon.page === 'track') {
+                          setDemon(state => ({ ...state, page: 'home' }))
+                        } else {
+                          setDemon(state => ({ ...state, page: 'track' }))
+                        }
+                }}    
             >UNO – DEMON WAV</p>
             <div className="audio-nav-progress">
                 <div
@@ -55,14 +62,14 @@ const AudioNav = () => {
                     <>
                         {demon.trackPlaying ? (
                             <div
-                                className="audio-nav-svg"
+                                className="audio-nav-svg svg-pause"
                                 onClick={() => setDemon(state => ({ ...state, trackPlaying: !state.trackPlaying}))}
                             >
-                                <Stop />
+                                <Pause />
                             </div>
                         ) : (
                             <div
-                                className="audio-nav-svg"
+                                className="audio-nav-svg "
                                 onClick={() => setDemon(state => ({ 
                                     ...state, 
                                     trackPlaying: !state.trackPlaying,
