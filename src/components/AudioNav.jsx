@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from 'react'
+import { useContext, useEffect, useMemo, useRef } from 'react'
 import { DemonContext } from '@/providers/DemonProvider'
 
 import { useWindowSize } from '@/hooks/useWindowSize'
@@ -11,6 +11,7 @@ import PlayHead from '@/svg/PlayHead'
 const AudioNav = () => {
     const [demon, setDemon] = useContext(DemonContext)
     const size = useWindowSize()
+    const progressRef = useRef(null)
     // console.log(demon.currentTrackTime)
     const playheadX = useMemo(() => {
         // console.log(demon.currentTrackTime)
@@ -28,6 +29,18 @@ const AudioNav = () => {
         // console.log("audionav 2: ", demon)
     }, [demon.currentTrackTime, demon.currentTrackLength])
 
+    const handleProgressChange = e => {
+        console.log(progressRef.current?.value)
+    }
+
+    const handleDrag = () => {
+        console.log('draging')
+    }
+
+    const handleDrop = () => {
+        console.log("droppin")
+    }
+
     return (
         <section className="audio-nav-container">
             <p 
@@ -41,7 +54,7 @@ const AudioNav = () => {
                 }}    
             >UNO – DEMON WAV</p>
             <div className="audio-nav-progress">
-                <div
+                {/* <div
                     className="audio-nav-progress-playhead-begining"
                     style={{
                         width: `${playheadX}px`
@@ -51,11 +64,30 @@ const AudioNav = () => {
                     className="audio-nav-progress-playhead-container"
                     style={{
                         transform: `translateX(${playheadX}px)`
-                    }}    
+                    }}
+                    onClick={() => console.log("clicked playhead")}
+                    draggable
+                    onDragOver={(ev) => {
+                        ev.preventDefault()
+                        console.log(ev)
+                    }}
+                    onDrop={handleDrop}
+                    onDragStart={handleDrag}  
                 >
                     <PlayHead />
                 </div>
-                <div className="audio-nav-progress-line" />
+                <div className="audio-nav-progress-line" /> */}
+                <input
+                    className="audio-nav-progress-input"
+                    ref={progressRef}
+                    type="range"
+                    defaultValue="0"
+                    step={0.001}
+                    min={0}
+                    max={demon.currentTrackLength}
+                    value={demon.currentTrackTime}
+                    onChange={handleProgressChange}
+                />
             </div>
             <div className="audio-nav-svg-container">
                 {demon.audioLoaded && (

@@ -44,6 +44,7 @@
     transform-origin: center;
     margin-top: -10px;
     left: 0;
+    z-index: 1001;
 
     svg {
         fill: $light-text;
@@ -80,4 +81,8 @@
 
 .svg-pause {
     width: 60% !important;
+}
+
+.audio-nav-progress-input {
+    width: 100%;
 }
