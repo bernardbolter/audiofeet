@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, Suspense, useRef, useState, useEffect, useMemo } from "react"
+import { useContext, Suspense, useRef, useState, useEffect, useMemo, forwardRef } from "react"
 import { DemonContext } from "@/providers/DemonProvider"
 import { useWindowSize } from "@/hooks/useWindowSize"
 
@@ -11,7 +11,7 @@ import * as THREE from 'three'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { useControls } from "leva"
 import { TextureLoader } from "three"
-import { Stats, OrbitControls, PositionalAudio, useTexture, useProgress } from "@react-three/drei"
+import { Stats, OrbitControls, PositionalAudio, useTexture, useProgress, Audio } from "@react-three/drei"
 
 // useTexture.preload('/images/uno_alesia/uno_alesia_desktop.jpg')
 
@@ -56,7 +56,7 @@ const Analyzer = ({
             }
             const averageFreq = analyzerRef.current.getAverageFrequency()
             const allFreq = analyzerRef.current.getFrequencyData()
-            imageRef.current.material.displacementScale = averageFreq / 4
+            imageRef.current.material.displacementScale = -averageFreq / 4
         }
     })
 
@@ -88,7 +88,7 @@ const PlayTrack = ({
     audioURL
 }) => {
     const [demon, setDemon] = useContext(DemonContext)
-    const trackRef = useRef(null)
+    // const trackRef = useRef(null)
 
     useEffect(() => {
         console.log('trackRef: ', trackRef)
@@ -153,6 +153,8 @@ const Visualizer = () => {
     const [mobileImage, setMobileImage] = useState(useLoader(TextureLoader, '/images/uno_alesia/uno_alesia_mobile.jpg'))
     const [mobileDis, setMobileDis] = useState(useLoader(TextureLoader, '/images/uno_alesia/uno_alesia_dis_mobile.jpg'))
     const [audioURL, setAudioURL] = useState('/audio/UNO.mp3')
+
+    const trackForwardRef = useRef()
 
     // useEffect(() => {
     //     console.log("index: ", demon.currentTrackIndex)

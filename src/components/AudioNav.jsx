@@ -14,8 +14,8 @@ const AudioNav = () => {
     const progressRef = useRef(null)
     // console.log(demon.currentTrackTime)
     const playheadX = useMemo(() => {
-        // console.log(demon.currentTrackTime)
-        // console.log(demon.currentTrackLength)
+        console.log(demon.currentTrackTime)
+        console.log(demon.currentTrackLength)
         // console.log((demon.currentTrackTime / demon.currentTrackLength) * (size.width - 20))
         if (demon.currentTrackLength === 0 || demon.currentTrackTime === 0) {
             return 0

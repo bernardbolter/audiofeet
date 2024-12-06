@@ -58,8 +58,8 @@ const Home = () => {
                   </div>
                 )}
                 <Visualizer/>
-                <AudioNav />
-                <div 
+                {/* <AudioNav /> */}
+                {/* <div 
                   className="home-playlist-container"
                   onClick={() => {
                     if (demon.page === 'playlist') {
@@ -70,13 +70,13 @@ const Home = () => {
                   }}
                 >
                   <PlaylistIcon />
-                </div>
+                </div> */}
                 {demon.page === 'about' && (
                     <AboutWAV />
                 )}
-                {demon.page === 'playlist' && (
+                {/* {demon.page === 'playlist' && (
                     <Playlist />
-                )}
+                )} */}
                 {demon.page === 'track' && (
                     <AboutTrack />
                 )}
