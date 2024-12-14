@@ -8,11 +8,19 @@ import Stop from '@/svg/Stop'
 import Pause from '@/svg/Pause'
 import PlayHead from '@/svg/PlayHead'
 
-const AudioNav = () => {
+const AudioNav = ({ trackRef }) => {
     const [demon, setDemon] = useContext(DemonContext)
     const size = useWindowSize()
     const progressRef = useRef(null)
     // console.log(demon.currentTrackTime)
+    // console.log("ad track:", trackRef)
+
+    // useEffect(() => {
+    //     console.log("ad track in effect:", trackRef.current?.context?.currentTime)
+    //     console.log(trackRef) 
+    // }, [trackRef.current?.context?.currentTime])
+
+
     const playheadX = useMemo(() => {
         console.log(demon.currentTrackTime)
         console.log(demon.currentTrackLength)
@@ -114,6 +122,25 @@ const AudioNav = () => {
                     </>
                 )}
             </div>
+            <div
+                style={{
+                    width: 40, height: 40, background: 'green'
+                }}
+                onClick={() => {
+                    console.log("play trac: ", trackRef.currentTime)
+                    trackRef.play()
+                }}
+            />
+            <div
+                style={{
+                    width: 40, height: 40, background: 'red'
+                }}
+                onClick={() => {
+                    console.log("stop track: ", trackRef.currentTime)
+                    trackRef.pause()
+                    trackRef.currentTime = 0
+                }}
+            />
         </section>
     )
 }

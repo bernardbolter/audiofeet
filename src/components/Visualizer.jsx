@@ -88,7 +88,7 @@ const PlayTrack = ({
     audioURL
 }) => {
     const [demon, setDemon] = useContext(DemonContext)
-    // const trackRef = useRef(null)
+    const trackRef = useRef(null)
 
     useEffect(() => {
         console.log('trackRef: ', trackRef)
@@ -103,9 +103,14 @@ const PlayTrack = ({
     useEffect(() => {
         if (trackRef.current) {
             if (demon.trackPlaying) {
-                trackRef.current.context.resume()
+                trackRef.current.offset = 0
+                trackRef.current.play()
+                console.log(trackRef.current.context.currentTime)
+                console.log(trackRef.current)
             } else {
-                trackRef.current.context.suspend()
+                trackRef.current.stop()
+                trackRef.current.offset = 200
+                console.log(trackRef.current.context.currentTime)
             }
         }
     }, [demon.trackPlaying])

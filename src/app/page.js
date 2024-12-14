@@ -9,6 +9,7 @@ import Playlist from '@/components/Playlist'
 import AboutTrack from "@/components/AboutTrack"
 import Visualizer from "@/components/Visualizer"
 import AudioNav from "@/components/AudioNav"
+import Audio from "@/components/Audio"
 
 import Logo from "@/svg/Logo"
 import PlaylistIcon from "@/svg/PlaylistIcon"
@@ -58,6 +59,7 @@ const Home = () => {
                   </div>
                 )}
                 <Visualizer/>
+                {/* <Audio /> */}
                 {/* <AudioNav /> */}
                 {/* <div 
                   className="home-playlist-container"
