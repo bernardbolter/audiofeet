@@ -34,7 +34,7 @@ const Home = () => {
 
   return (
       <section className="home-container">
-        {!demon.assetsLoaded && <Loading text="loading demon WAV" />}
+        {/* {!demon.assetsLoaded && <Loading text="loading demon WAV" />} */}
         {demon.tracksData.length !==0 && (
           <>
                 <div 
@@ -49,7 +49,7 @@ const Home = () => {
                 >
                   <Logo />
                 </div>
-                {!demon.audioLoaded && (
+                {/* {!demon.audioLoaded && (
                   <div className="loading-image-container">
                     {size.width > 768 ? (
                       <img src='/images/uno_alesia/uno_alesia_desktop.jpg' alt="loading desktop" />
@@ -57,7 +57,7 @@ const Home = () => {
                       <img src='/images/uno_alesia/uno_alesia_mobile.jpg' alt="loading mobile" />
                     )}
                   </div>
-                )}
+                )} */}
                 <Visualizer/>
                 {/* <Audio /> */}
                 {/* <AudioNav /> */}

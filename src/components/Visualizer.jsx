@@ -29,13 +29,26 @@ const Analyzer = ({
     const { gl } = useThree()
 
     const viewport = useThree(state => state.viewport)
+    // console.log("anal track: ", track.current)
 
     // load track into audio anylyser reference when track is changed
     useEffect(() => {
+        console.log("anal track outside: ", track.current)
         if (track.current) {
-            analyzerRef.current = new THREE.AudioAnalyser(track.current)
+            console.log("anal track: ", track.current)
+            // analyzerRef.current = new THREE.AudioAnalyser(track)
         }
+        console.log(analyzerRef)
     }, [track.current])
+    var listener = new THREE.AudioListener()
+    // camera.add( listener )
+    var sound = new THREE.Audio( listener )
+    var audioLoader = new THREE.AudioLoader()
+    audioLoader.load('/audio/UNO.mp3', function( buffer ) { sound.setBuffer( buffer) })
+    sound.play()
+
+    analyzerRef.current = new THREE.AudioAnalyser(sound, 32)
+
 
     // for testing in leva
     // const material = useControls({
@@ -50,10 +63,13 @@ const Analyzer = ({
 
     // animate the displacement of image based on track analyzer, and send current track time to audio nav
     useFrame(() => {
+        // console.log(track.current)
         if (analyzerRef.current) {
-            if (track.current.context.currentTime !== 0) {
-                setDemon(state => ({ ...state, currentTrackTime: track.current.context.currentTime - (demon.currentTrackLength * demon.playCount)}))
-            }
+            // console.log(track.current)
+            console.log(analyzerRef.current)
+            // if (track.current.context.currentTime !== 0) {
+            //     setDemon(state => ({ ...state, currentTrackTime: track.current.context.currentTime - (demon.currentTrackLength * demon.playCount)}))
+            // }
             const averageFreq = analyzerRef.current.getAverageFrequency()
             const allFreq = analyzerRef.current.getFrequencyData()
             imageRef.current.material.displacementScale = -averageFreq / 4
@@ -85,50 +101,80 @@ const PlayTrack = ({
     desktopDis,
     mobileImage,
     mobileDis,
-    audioURL
+    audioURL,
+    audioRef
 }) => {
     const [demon, setDemon] = useContext(DemonContext)
     const trackRef = useRef(null)
+    // const audioElmRef= useRef(null)
+    // const [theAudio, setTheAudio] = useState('/audio/UNO.mp3')
 
     useEffect(() => {
-        console.log('trackRef: ', trackRef)
-        if (trackRef.current) {
-            console.log('track available')
-            if (demon.startAudio) {
-                trackRef.current.play()
-            }
-        }
-    }, [demon.startAudio, trackRef])
+        var ctx = new AudioContext()
+        var analyzerNode = ctx.createAnalyser()
+        var sourceNode = ctx.createMediaElementSource(audioRef.current)
+        sourceNode.connect(analyzerNode)
+        sourceNode.connect(ctx.destination)
+        trackRef.current = ctx
+        console.log(trackRef.current)
+    }, [audioRef])
+
+    // const changeTrack = (track, offset) => {
+    //     setTheAudio('/audio/UNO.mp3')
+    //     var ctx = new AudioContext()
+    //     var analyzerNode = ctx.createAnalyser()
+    //     var sourceNode = ctx.createMediaElementSource(audioElmRef.current)
+    //     sourceNode.connect(analyzerNode)
+    //     sourceNode.connect(ctx.destination)
+    //     trackRef.current = ctx
+    // }
 
     useEffect(() => {
-        if (trackRef.current) {
-            if (demon.trackPlaying) {
-                trackRef.current.offset = 0
-                trackRef.current.play()
-                console.log(trackRef.current.context.currentTime)
-                console.log(trackRef.current)
-            } else {
-                trackRef.current.stop()
-                trackRef.current.offset = 200
-                console.log(trackRef.current.context.currentTime)
-            }
+        if (demon.changeTrack) {
+            changeTrack('', 0)
         }
-    }, [demon.trackPlaying])
+    }, [demon.changeTrack])
+    
 
-    useEffect(() => {
-        if (trackRef.current) {
-            console.log("trackRef: ", trackRef.current.buffer.duration)
-            console.log("trackRef all: ", trackRef.current)
-            setDemon(state => ({ ...state, currentTrackLength: trackRef.current.buffer.duration }))
-            if (demon.playCount > 0) {
-                setDemon(state => ({ ...state, playCount: 0 }))
-            }
-        }
-    }, [trackRef.current])
+    // useEffect(() => {
+    //     console.log('trackRef: ', trackRef)
+    //     if (trackRef.current) {
+    //         console.log('track available')
+    //         if (demon.startAudio) {
+    //             trackRef.current.play()
+    //         }
+    //     }
+    // }, [demon.startAudio, trackRef])
+
+    // useEffect(() => {
+    //     if (trackRef.current) {
+    //         if (demon.trackPlaying) {
+    //             trackRef.current.offset = 0
+    //             trackRef.current.play()
+    //             console.log(trackRef.current.context.currentTime)
+    //             console.log(trackRef.current)
+    //         } else {
+    //             trackRef.current.stop()
+    //             trackRef.current.offset = 200
+    //             console.log(trackRef.current.context.currentTime)
+    //         }
+    //     }
+    // }, [demon.trackPlaying])
+
+    // useEffect(() => {
+    //     if (trackRef.current) {
+    //         console.log("trackRef: ", trackRef.current.buffer.duration)
+    //         console.log("trackRef all: ", trackRef.current)
+    //         setDemon(state => ({ ...state, currentTrackLength: trackRef.current.buffer.duration }))
+    //         if (demon.playCount > 0) {
+    //             setDemon(state => ({ ...state, playCount: 0 }))
+    //         }
+    //     }
+    // }, [trackRef.current])
 
     return (
         <Suspense fallback={null}>
-            <PositionalAudio
+            {/* <PositionalAudio
                 autoplay={false}
                 url={audioURL}
                 ref={trackRef}
@@ -139,14 +185,23 @@ const PlayTrack = ({
                     trackRef.current.play()
                     setDemon(state => ({ ...state, playCount: state.playCount + 1 }))
                 }}
-            />
-            <Analyzer 
-                track={trackRef} 
-                desktopImage={desktopImage}
-                desktopDis={desktopDis}
-                mobileImage={mobileImage}
-                mobileDis={mobileDis}    
-            />
+            /> */}
+            {/* <audio
+                // style={{
+                //     display: "hidden"
+                // }}
+                src={theAudio ?? ""}
+                ref={audioElmRef}
+            /> */}
+            {trackRef !== null && (
+                <Analyzer 
+                    track={trackRef} 
+                    desktopImage={desktopImage}
+                    desktopDis={desktopDis}
+                    mobileImage={mobileImage}
+                    mobileDis={mobileDis}    
+                />
+            )}
         </Suspense>
     )
 }
@@ -158,8 +213,9 @@ const Visualizer = () => {
     const [mobileImage, setMobileImage] = useState(useLoader(TextureLoader, '/images/uno_alesia/uno_alesia_mobile.jpg'))
     const [mobileDis, setMobileDis] = useState(useLoader(TextureLoader, '/images/uno_alesia/uno_alesia_dis_mobile.jpg'))
     const [audioURL, setAudioURL] = useState('/audio/UNO.mp3')
+    const audioElmRef= useRef(null)
+    const [theAudio, setTheAudio] = useState('/audio/UNO.mp3')
 
-    const trackForwardRef = useRef()
 
     // useEffect(() => {
     //     console.log("index: ", demon.currentTrackIndex)
@@ -204,11 +260,23 @@ const Visualizer = () => {
                         mobileImage={mobileImage}
                         mobileDis={mobileDis}
                         audioURL={audioURL}
+                        audioRef={audioElmRef}
                     />
                     <OrbitControls />
                 </Suspense>
             </Canvas>
             <AudioNav />
+            <audio
+                style={{
+                    // display: "hidden"
+                    position: 'fixed',
+                    bottom: 0,
+                    zIndex: 4000
+                }}
+                controls
+                src={theAudio}
+                ref={audioElmRef}
+            />
         </section>
     )
 }

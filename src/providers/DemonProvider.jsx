@@ -20,7 +20,8 @@ const DemonProvider = ({ children }) => {
         canvasLoaded: false,
         assetsLoaded: false,
         audioLoaded: false,
-        audioPlaying: false
+        audioPlaying: false,
+        changeTrack: false
    })
 
    return (
