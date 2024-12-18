@@ -30,8 +30,10 @@ const Analyzer = ({
 
     const viewport = useThree(state => state.viewport)
 
+
     // load track into audio anylyser reference when track is changed
     useEffect(() => {
+        console.log(track.current)
         if (track.current) {
             analyzerRef.current = new THREE.AudioAnalyser(track.current)
         }
@@ -88,6 +90,7 @@ const PlayTrack = ({
 }) => {
     const [demon, setDemon] = useContext(DemonContext)
     const trackRef = useRef(null)
+    const trackRef2 = useRef(null)
 
     useEffect(() => {
         console.log('trackRef: ', trackRef)
@@ -120,12 +123,24 @@ const PlayTrack = ({
         }
     }, [trackRef.current])
 
+    useEffect(() => {
+
+    }, [demon.startOver])
+
     return (
         <Suspense fallback={null}>
             <PositionalAudio
                 autoplay={false}
                 url={audioURL}
-                ref={trackRef}
+                ref={(node) => {
+                    // console.log(node)
+                    if (demon.startOver === 'track') {
+                        trackRef.current = node
+                    } else {
+                        trackRef2.current = node
+                    }
+                    
+                }}
                 loop={false}
                 onEnded={() => {
                     console.log('track ended')
@@ -135,7 +150,7 @@ const PlayTrack = ({
                 }}
             />
             <Analyzer 
-                track={trackRef} 
+                track={demon.startOver === 'track' ? trackRef : trackRef2} 
                 desktopImage={desktopImage}
                 desktopDis={desktopDis}
                 mobileImage={mobileImage}
