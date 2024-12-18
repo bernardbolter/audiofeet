@@ -33,7 +33,7 @@ const Home = () => {
 
   return (
       <section className="home-container">
-        {!demon.assetsLoaded && <Loading text="loading demon WAV" />}
+        {/* {!demon.assetsLoaded && <Loading text="loading demon WAV" />} */}
         {demon.tracksData.length !==0 && (
           <>
                 <div 

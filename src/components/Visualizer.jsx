@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, Suspense, useRef, useState, useEffect, useMemo } from "react"
+import { useContext, Suspense, useRef, useState, useEffect, useMemo, useCallback } from "react"
 import { DemonContext } from "@/providers/DemonProvider"
 import { useWindowSize } from "@/hooks/useWindowSize"
 
@@ -127,9 +127,36 @@ const PlayTrack = ({
 
     }, [demon.startOver])
 
+    var theAudio = useCallback((trackRef, audioUrl) => {
+        return (
+            <PositionalAudio
+                autoplay={false}
+                url={audioURL}
+                ref={trackRef}
+                // ref={(node) => {
+                //     // console.log(node)
+                //     if (demon.startOver === 'track') {
+                //         trackRef.current = node
+                //     } else {
+                //         trackRef2.current = node
+                //     }
+                    
+                // }}
+                loop={false}
+                onEnded={() => {
+                    console.log('track ended')
+                    trackRef.current.stop()
+                    trackRef.current.play()
+                    setDemon(state => ({ ...state, playCount: state.playCount + 1 }))
+                }}
+            />
+        )
+    }, [demon.audio])
+
     return (
         <Suspense fallback={null}>
-            <PositionalAudio
+            {theAudio}
+            {/* <PositionalAudio
                 autoplay={false}
                 url={audioURL}
                 ref={(node) => {
@@ -148,7 +175,7 @@ const PlayTrack = ({
                     trackRef.current.play()
                     setDemon(state => ({ ...state, playCount: state.playCount + 1 }))
                 }}
-            />
+            /> */}
             <Analyzer 
                 track={demon.startOver === 'track' ? trackRef : trackRef2} 
                 desktopImage={desktopImage}

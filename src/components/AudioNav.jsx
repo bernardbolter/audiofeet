@@ -74,14 +74,14 @@ const AudioNav = () => {
                         )}
                     </>
                 )}
-                <div
+                {/* <div
                     style={{
                         width: 30,
                         height: 30,
                         background: 'green'
                     }}
                     onClick={() => setDemon(state => ({ ...state, startOver: state.startOver === 'track' ? 'track2' : 'track' }))}
-                />
+                /> */}
             </div>
         </section>
     )
